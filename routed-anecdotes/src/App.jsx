@@ -1,6 +1,7 @@
 // src/App.jsx:
 /* eslint-disable react/prop-types */
 import { useState } from 'react'
+import { useField } from './hooks'   // When we point an import statement to a directory (./hooks), the build tool (Vite) automatically looks for a file named index.js inside that folder.
 
 import {       // Import tools from react-router-dom:
   Routes,        // Container for all possible Route definitions.
@@ -70,22 +71,31 @@ const Footer = () => (
   </div>
 )
 
-const CreateNew = (props) => {
-  const [content, setContent] = useState('')
-  const [author, setAuthor] = useState('')
-  const [info, setInfo] = useState('')
+const CreateNew = (props) => {      // Initialise the text input fields
+  // We extract 'reset' into a uniquely named variable 
+  
+  const { reset: resetContentField, ...content } = useField('text')     // Extract 'reset' and place it in a uniquely named variable. 
+  const { reset: resetAuthorField, ...author } = useField('text')       // Then gather the rest into an object ({type, value, onChange}).
+  const { reset: resetInfoField, ...info } = useField('text')           // This removes the Warning: "Invalid value for prop `reset` on <input> tag." from previouse strategy.
 
   const navigate = useNavigate() // Hook to redirect the user. navigate is a function that lets us "push" a new URL to the browser history
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    props.addNew({
-      content,
-      author,
-      info,
+    props.addNew({    // 
+      content: content.value,    // Access the value property of the hook object
+      author: author.value,
+      info: info.value,
       votes: 0
     })
     navigate('/') // Send user back to the list after submission of new anecdote
+  }
+
+  const handleReset = (e) => {  // Use handleReset function to reset the field values.
+    e.preventDefault()         // Prevent form resubmission. The button is inside the form
+    resetContentField()
+    resetAuthorField()
+    resetInfoField()
   }
 
   return (
@@ -93,18 +103,19 @@ const CreateNew = (props) => {
       <h2>create a new anecdote</h2>
       <form onSubmit={handleSubmit}>
         <div>
-          content   {/* Controlled inputs: value is tied to state, onChange updates state */}
-          <input name='content' value={content} onChange={(e) => setContent(e.target.value)} />
+          content
+          <input {...content} /> 
         </div>
         <div>
           author
-          <input name='author' value={author} onChange={(e) => setAuthor(e.target.value)} />
+          <input {...author} />
         </div>
         <div>
           url for more info
-          <input name='info' value={info} onChange={(e)=> setInfo(e.target.value)} />
+          <input {...info} />
         </div>
-        <button>create</button>
+        <button type="submit">create</button>
+        <button type="button" onClick={handleReset}>reset</button>
       </form>
     </div>
   )
@@ -130,8 +141,8 @@ const App = () => {
 
   const [notification, setNotification] = useState('')   // Notification state
 
-  const addNew = (anecdote) => {
-    anecdote.id = Math.round(Math.random() * 10000)
+  const addNew = (anecdote) => {   // 'anecdote' is the object { content, author, info, votes } passed from handleSubmit
+    anecdote.id = Math.round(Math.random() * 10000)    // Add a unique (ish) id.
     setAnecdotes(anecdotes.concat(anecdote))
   
     setNotification(`a new anecdote ${anecdote.content} created!`)   // Set the notification message for addNew anecdote success.

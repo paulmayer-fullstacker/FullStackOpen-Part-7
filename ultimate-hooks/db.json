@@ -1,0 +1,46 @@
+{
+  "notes": [
+    {
+      "id": 1,
+      "content": "custom-hooks are awesome!"
+    },
+    {
+      "id": 2,
+      "content": "best feature ever <3"
+    },
+    {
+      "content": "The quick brown fox ...",
+      "id": 3
+    },
+    {
+      "content": "Now is the time ..",
+      "id": 4
+    },
+    {
+      "content": "Of all the bottles on the bar ...",
+      "id": 5
+    }
+  ],
+  "persons": [
+    {
+      "id": 1,
+      "name": "mluukkai",
+      "number": "040-5483923"
+    },
+    {
+      "id": 2,
+      "name": "hellas",
+      "number": "012-123123"
+    },
+    {
+      "name": "Paul Mayer",
+      "number": "01234567890",
+      "id": 3
+    },
+    {
+      "name": "Linda Mayer",
+      "number": "02345678901",
+      "id": 4
+    }
+  ]
+}
