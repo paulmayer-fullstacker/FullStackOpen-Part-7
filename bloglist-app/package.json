@@ -1,0 +1,18 @@
+{
+  "name": "bloglist-monorepo-root",
+  "private": true,
+  "description": "Root of the bloglist monorepo",
+  "workspaces": [
+    "frontend",
+    "backend",
+    "shared"
+  ],
+  "scripts": {
+    "format": "prettier --write .",
+    "lint": "npm run lint --workspaces"
+  },
+  "devDependencies": {
+    "eslint-config-prettier": "^10.1.8",
+    "prettier": "3.8.0"
+  }
+}
