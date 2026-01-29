@@ -38,6 +38,11 @@ const like = async (id) => {
   return response.data
 }
 
+const addComment = async (id, comment) => {
+  const response = await axios.post(`${baseUrl}/${id}/comments`, { comment }) // Sends a POST request to /api/blogs/:id/comments. No Authorization header is needed as comments are anonymous.
+  return response.data
+}
+
 const remove = async (id) => {
   // Function to remove (delete) a blog post
   const config = {
@@ -54,5 +59,6 @@ export default {
   update,
   like,
   remove,
+  addComment,
   setToken,
 }

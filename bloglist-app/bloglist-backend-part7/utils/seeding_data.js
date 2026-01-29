@@ -10,7 +10,7 @@ const testUsers = [
   {
     username: 'seededauthor2',
     name: 'Seeded Author Two',
-    password: 'securepassword',
+    password: 'password1234',
   },
 ]
 
@@ -24,12 +24,14 @@ const multiUserBlogs = [
     url: 'http://example.com/auth-king',
     likes: 10,
     ownerUsername: 'seededauthor1',
+    comments: ['Seeded Blog 1: Great!', 'Good job Seeded Author One'],
   },
   {
     title: 'Seeded Blog 2 by Seeded Author One',
     url: 'http://example.com/mongoose-pop',
     likes: 5,
     ownerUsername: 'seededauthor1',
+    comments: ['Loved Seeded Blog 2.', 'Great insight from Seeded Author One'],
   },
   // Blogs for 'testauthor2'
   {
@@ -37,18 +39,25 @@ const multiUserBlogs = [
     url: 'http://example.com/node-streams',
     likes: 22,
     ownerUsername: 'seededauthor2',
+    comments: ['Comment 1 on Blog 1', 'Seeded Author Two?'],
   },
   {
     title: 'Seeded Blog 2 by Seeded Author Two',
     url: 'http://example.com/idempotency',
     likes: 15,
     ownerUsername: 'seededauthor2',
+    comments: ['Comment on Blog 2.', 'Another comment'],
   },
   {
     title: 'Seeded Blog 3 by Seeded Author Two',
     url: 'http://example.com/supertest-guide',
     likes: 3,
     ownerUsername: 'seededauthor2',
+    comments: [
+      'Comment 1 on Blog 3',
+      'Comment 2 on Blog 3',
+      'Comment 3 on Blog 3',
+    ],
   },
 ]
 

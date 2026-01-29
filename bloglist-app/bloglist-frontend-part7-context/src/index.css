@@ -24,3 +24,10 @@ h1, h2 {
   color: red;
   border-color: red;
 }
+
+input::placeholder {
+  color: #a9a9a9; // Darker than lightgrey for better accessibility
+  opacity: 1; // Ensure full opacity in Firefox
+  font-weight: 300;
+  font-size: 0.9em;  // Slightly smaller than default text.
+}

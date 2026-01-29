@@ -157,5 +157,33 @@ blogsRouter.put('/:id', async (request, response, next) => {
   }
 })
 
+// Route to handle adding an anonymous comment. Endpoint: POST /api/blogs/:id/comments. Middleware.userExtractor omited to allow anonymous posting.
+blogsRouter.post('/:id/comments', async (request, response, next) => {
+  const { comment } = request.body // Extract the string from { "comment": "text" }
+  const blogId = request.params.id
+
+  // Validation: Ensure there is a comment, not just whitespace.
+  if (!comment || comment.trim() === '') {
+    return response.status(400).json({ error: 'comment content is required' })
+  }
+
+  try {
+    // Use $push to add the comment string to the 'comments' array in MongoDB. { new: true } returns the document AFTER the update.
+    const updatedBlog = await Blog.findByIdAndUpdate(
+      blogId,
+      { $push: { comments: comment } },
+      { new: true, runValidators: true }
+    ).populate('user', { username: 1, name: 1, id: 1 }) // Repopulate user so frontend UI doesn't break
+
+    if (updatedBlog) {
+      response.status(201).json(updatedBlog)
+    } else {
+      response.status(404).json({ error: 'blog not found' })
+    }
+  } catch (exception) {
+    next(exception)
+  }
+})
+
 // Export the router module for use in app.js
 module.exports = blogsRouter

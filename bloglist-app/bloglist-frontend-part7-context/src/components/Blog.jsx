@@ -1,57 +1,27 @@
-// // src/components/Blog.jsx:
-// Presentational component that receive data and functions (like handleLike) as props.
-import { useState } from 'react'
-
-const Blog = ({ blog, handleLike, handleRemove, currentUser }) => {
-  const [visible, setVisible] = useState(false) // Local UI state: collapsed vs expanded
-
-  const toggleVisibility = () => setVisible(!visible) // Toggle expanded view by flipping the boolean state.
-
-  const authorName = blog.user?.name || blog.user?.username || 'Unknown Author' // Determine author name if known
-  //  ^  // Optional Chaining: Use ?. because 'blog.user' might be undefined if the data is still loading or poorly formatted. This prevents the app from crashing.
-
-  const isOwner = // Check if logged-in user is the blog creator/owner
-    blog.user &&
-    currentUser &&
-    (blog.user.id === currentUser.id ||
-      blog.user.username === currentUser.username)
-  // Inline styling for blog container
-  const blogStyle = {
-    paddingTop: 10,
-    paddingLeft: 2,
-    border: 'solid',
-    borderWidth: 1,
-    marginBottom: 5,
-  }
-
+// src/components/Blog.jsx:
+// Presentational Component: take data (blog) and display it using the styled components and routing logic. THis is one blog in a list of blogs.
+import { Link } from 'react-router-dom' // Import Link component from react-router-dom to enable client-side navigation without refreshing the page.
+import { ItemCard } from './GlobalStyling' // Import ItemCard from GlobalStyling.
+// Define Blog: a functional component that receives a 'blog' object as a prop via destructuring.
+const Blog = ({ blog }) => {
   return (
-    <div style={blogStyle} className="blog-item">
-      {/* Header: Always visible */}
-      <span className="blog-title-author">
-        {blog.title} by {authorName}
-      </span>
-      {/* Toggle View Button: Changes text dynamically based on 'visible' state */}
-      <button onClick={toggleVisibility}>{visible ? 'hide' : 'view'}</button>
-      {/* Conditional Rendering: Using the && operator. If 'visible' is false, React ignores everything inside the parentheses. */}
-      {visible && ( // Only show details (including like button) if expanded (visible).
-        <>
-          <div className="blog-url">{blog.url}</div>
-          <div className="blog-likes">
-            likes {blog.likes}
-            {/* Action Prop: Call the function passed down from App.jsx */}
-            {handleLike && (
-              <button onClick={() => handleLike(blog.id)}>like</button>
-            )}
-          </div>
-          <div>{authorName}</div>
-          {/* Owner Only Action: Remove button only renders if 'isOwner' is true */}
-          {isOwner &&
-            handleRemove && ( // Remove button only visible to blog owner.
-              <button onClick={() => handleRemove(blog)}>remove</button>
-            )}
-        </>
-      )}
-    </div>
+    // Render the ItemCard wrapper. 'hoverable' boolean prop to trigger hover effects.
+    <ItemCard hoverable className="blog-item">
+      {/* Wrap the blog title in a Link. Clicking this will change the URL to /blogs/ID,  triggering the Route defined in App.jsx. */}
+      <Link
+        // The 'to' prop uses a template literal to dynamically create a path (e.g., /blogs/123) based on the blog's unique ID.
+        to={`/blogs/${blog.id}`}
+        style={{
+          textDecoration: 'none', // Removes the default blue underline from the link.
+          color: '#2c3e50', // Sets colour for the text.
+          fontWeight: 500, // Sets the font weight to medium.
+          fontSize: '1.1em', // Scales the font size slightly larger than the parent element.
+        }}
+      >
+        {/* Access the 'title' property of the blog object to display the text of the ItemCard/Link. */}
+        {blog.title}
+      </Link>
+    </ItemCard>
   )
 }
 

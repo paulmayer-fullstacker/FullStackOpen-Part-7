@@ -22,6 +22,11 @@ const blogSchema = new mongoose.Schema({
     ref: 'User',
     required: true, // A blog MUST have an author
   },
+  comments: [
+    {
+      type: String, // Comments field: an array of strings
+    },
+  ],
 })
 
 // Transform the document object before sending as JSON
@@ -30,6 +35,9 @@ blogSchema.set('toJSON', {
     returnedObject.id = returnedObject._id.toString() // Rename the MongoDB default primary key _id to id.
     delete returnedObject._id // Remove the original _id field.
     delete returnedObject.__v // Removes the Mongoose version key (__v).
+    if (!returnedObject.comments) {
+      returnedObject.comments = [] // If comments is undefined in the DB, return an empty array [] to the front end.
+    }
   },
 })
 
