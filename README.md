@@ -32,6 +32,8 @@ The bloglist-app contains four project files:
 - bloglist-frontend-part7-redux
 - bloglist-frontend-part7-context
 
+Each project has it's own installed dependancies (see associated package.json file). The parent project (bloglist-app), has its own package.json file, managing global depemdancies. Thus, it is necessary to run 'npm install' in the bloglist-app root directory, and in the child project (backend, frontend, test) root directories.
+
 ### To Milestone 7.13
 
 The backend (bloglist-backend-part7), is used for both frontends (bloglist-frontend-part7-redux and bloglist-frontend-part7-context). To start the backend, simply run 'npm run dev' from the backends root directory. Then run the same command from the desired frontend's root directory. The backend can only service one frontend at a time. Terminate both front and backend service, before restarting the backend and start the alternative frontend service.
